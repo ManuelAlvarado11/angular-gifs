@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'gifs-search-box',
@@ -6,7 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-box.component.css'],
 })
 export class SearchBoxComponent implements OnInit {
+  @ViewChild('txtTagInput') taginput!: ElementRef<HTMLInputElement>;
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  searchTag() {
+    console.log(this.taginput.nativeElement.value);
+  }
 }
