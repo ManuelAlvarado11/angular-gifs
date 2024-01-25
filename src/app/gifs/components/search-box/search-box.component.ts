@@ -7,7 +7,8 @@ import { GifsService } from '../../services/gifs.service';
   styleUrls: ['./search-box.component.css'],
 })
 export class SearchBoxComponent implements OnInit {
-  @ViewChild('txtTagInput') taginput!: ElementRef<HTMLInputElement>;
+  @ViewChild('txtTagInput')
+  public taginput!: ElementRef<HTMLInputElement>;
 
   constructor(private gifsService: GifsService) {}
 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GifsService } from '../../services/gifs.service';
+import { Gif } from '../../interfaces/gifs.interfaces';
 
 @Component({
   selector: 'gifs-home-page',
@@ -6,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-page.component.css'],
 })
 export class HomePageComponent implements OnInit {
-  constructor() {}
+  constructor(private gifsService: GifsService) {}
+
+  get gifs(): Gif[] {
+    return this.gifsService.gifsList;
+  }
 
   ngOnInit(): void {}
 }
