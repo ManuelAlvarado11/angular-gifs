@@ -6,16 +6,23 @@ import { SearchResponse, Gif } from '../interfaces/gifs.interfaces';
   providedIn: 'root',
 })
 export class GifsService {
+  // PROPS
   public gifsList: Gif[] = [];
   private _tagsHistory: string[] = [];
   private apiKey: string = 'aLTSvEkZhdxxb1fgctTgf97eFH3QdD0A';
   private urlBase: string = 'https://api.giphy.com/v1/gifs';
-  constructor(private http: HttpClient) {}
 
+  // CONSTRUCTOR
+  constructor(private http: HttpClient) {
+    this.loadLocalStorage();
+  }
+
+  // GETTERS AND SETTERS
   get tagsHistory() {
     return [...this._tagsHistory];
   }
 
+  // METODS
   public searchTag(tag: string): void {
     if (tag.length === 0) return;
     this.organizateHistory(tag);
@@ -28,10 +35,26 @@ export class GifsService {
     if (this._tagsHistory.includes(tag)) {
       this._tagsHistory = this._tagsHistory.filter((oldTag) => oldTag !== tag);
     }
-
     this._tagsHistory.unshift(tag);
     this._tagsHistory = this._tagsHistory.slice(0, 10);
+    this.saveLocalStorage();
   }
+
+  // ********************* LOCAL STORAGE ************************************
+
+  private saveLocalStorage(): void {
+    localStorage.setItem('history', JSON.stringify(this._tagsHistory));
+  }
+
+  private loadLocalStorage(): void {
+    if (!localStorage.getItem('history')) return;
+
+    const temporal = localStorage.getItem('history');
+    this._tagsHistory = JSON.parse(temporal!);
+    this.searchTag(this._tagsHistory[0]);
+  }
+
+  // ************************ ENDPOINTS *****************************************
 
   // GET LIST GIFS
   public getGifs(search: string) {
